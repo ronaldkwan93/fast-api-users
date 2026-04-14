@@ -38,3 +38,11 @@ def get_user(user_id:int = Path(..., description="The ID you want to get", gt=0,
         raise HTTPException(status_code=404, detail="User Not Found!")
     return users[user_id]
 
+#Create a user
+@app.post("/users/{user_id}", status_code=status.HTTP_201_CREATED)
+def create_user(user_id:int, user:User):
+    if user_id in users:
+        raise HTTPException(status_code=400, detail="User already exists")
+    
+    users[user_id] = user.dict()
+    return user
