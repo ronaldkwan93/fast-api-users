@@ -76,3 +76,13 @@ def delete_user(user_id:int):
         raise HTTPException(status_code=404, detail="Something went wrong")
 
     return {"message": f"User {user_id} has been deleted"}
+
+#Search for a User
+@app.get("/users/search/{name}")
+def search_user(name:str):
+    if not name:
+        return {"message": "name parameter is required"}
+    for user in users.values():
+        if user["name"] == name:
+            return user
+    raise HTTPException(status_code=404, detail="User Not Found!")
