@@ -64,3 +64,15 @@ def update_user(user_id: int, user: UpdateUser):
         current_user["role"] = user.role
 
     return current_user
+
+#Delete a User
+@app.delete("/users/{user_id}")
+def delete_user(user_id:int):
+    if user_id not in users:
+        raise HTTPException(status_code=404, detail="User Not Found!")
+    try: 
+        users.pop(user_id)
+    except:
+        raise HTTPException(status_code=404, detail="Something went wrong")
+
+    return {"message": f"User {user_id} has been deleted"}
