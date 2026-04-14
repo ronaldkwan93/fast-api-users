@@ -46,3 +46,21 @@ def create_user(user_id:int, user:User):
     
     users[user_id] = user.dict()
     return user
+
+#Update a user
+@app.put("/users/{user_id}")
+def update_user(user_id: int, user: UpdateUser):
+    if user_id not in users:
+        raise HTTPException(status_code = 400, detail="User is not here")
+    
+    current_user = users[user_id]
+    if user.name is not None:
+        current_user["name"] = user.name
+    if user.website is not None:
+        current_user["website"] = user.website
+    if user.age is not None:
+        current_user["age"] = user.age
+    if user.role is not None:
+        current_user["role"] = user.role
+
+    return current_user
