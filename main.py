@@ -14,6 +14,19 @@ users = {
     }
 }
 
+#Base Pydantic Model
+class User(BaseModel):
+    name: str
+    website: str
+    age: int
+    role: str
+
+class UpdateUser(BaseModel):
+    name: Optional[str] = None
+    website: Optional[str] = None
+    age: Optional[int] = None
+    role: Optional[str]= None
+
 @app.get("/")
 def root():
     return {"message": "Welcome to your Introduction to FastAPI"}
@@ -24,3 +37,4 @@ def get_user(user_id:int = Path(..., description="The ID you want to get", gt=0,
     if user_id not in users:
         raise HTTPException(status_code=404, detail="User Not Found!")
     return users[user_id]
+
